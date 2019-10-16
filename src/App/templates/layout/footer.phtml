@@ -1,0 +1,96 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: afinogen
+ * Date: 13.03.19
+ * Time: 16:43
+ */ ?>
+
+<div class="footer">
+    <div class="footer__inner inner">
+        <div class="footer__contacts">
+            <h4 class="footer__bold">Адрес АО "Счетмаш"</h4>
+            <p>305022, г. Курск, ул. 2-я Рабочая, д. 23, Литер В2, пом. 53</p>
+            <h5 class="footer__bold">Электронная почта</h5>
+            <p><a href="mailto:kkt@schetmash.com">kkt@schetmash.com</a></p>
+        </div>
+        <div class="footer__contacts">
+            <h4 class="footer__bold">Телефоны</h4>
+            <p>Многоканальный</p>
+            <p><a href="tel:+74712734994" target="_blank">+7 (4712) 734-994</a></p>
+            <p>Техническая поддержка</p>
+            <p><a href="tel:88007005409" target="_blank">8-800-700-54-09</a></p>
+            <p><a href="tel:+74712734984" target="_blank">+7 (4712) 734-984</a></p>
+        </div>
+        <div class="footer__contacts">
+            <h4 class="footer__bold">Мы в социальных сетях
+            </h4>
+            <p><a class="footer__soc-link" href="https://vk.com/schetmash" target="_blank"><i class="fab fa-vk" aria-hidden="true"></i></a>
+                <a
+                        class="footer__soc-link"
+                        href="https://www.youtube.com/channel/UCDX9Lk1GdVd7Z0CERVQe5kg"
+                        target="_blank">
+                    <i class="fab fa-youtube" aria-hidden="true"></i>
+                </a>
+            </p>
+            <p><a href="/docs/privacy_policy.odt" target="_blank">Политика конфиденциальности</a></p>
+            <p><a href="https://group.keaz.ru/" target="_blank"><img src="/assets/landing/images/gk.png" alt=""/></a></p>
+        </div>
+    </div>
+</div>
+<div class="enter-modal">
+    <div class="enter-switcher"><i class="fas fa-times"></i>
+        <div class="tab-content">
+            <div class="tab-pane active" role="tabpanel" id="enter-tab2">
+                <form class="enter-modal__enter-block" method="post" action="<?php echo $this->url('login'); ?>">
+                    <input
+                            class="enter-modal__input"
+                            type="email"
+                            pattern="^[\w\-\.\_]+@([\w\-]+\.)+[a-z]+$"
+                            placeholder="Логин"
+                            name="username"
+                            required
+                    />
+                    <input class="enter-modal__input" type="password" placeholder="Пароль" name="password" required/>
+                    <input class="btn btn_enter enter-modal__btn" type="submit" value="Войти"/>
+                </form>
+            </div>
+            <div class="tab-pane" role="tabpanel" id="password-tab2">
+                <form class="enter-modal__enter-block" method="post" action="<?php echo $this->url('user.forget'); ?>">
+                    <input
+                            class="enter-modal__input"
+                            type="email"
+                            name="email"
+                            pattern="^[\w\-\.\_]+@([\w\-]+\.)+[a-z]+$"
+                            placeholder="Электронная почта"
+                            required
+                    />
+                    <input class="btn btn_enter enter-modal__btn" type="submit" value="Восстановить"/>
+                </form>
+            </div>
+            <div class="tab-pane" role="tabpanel" id="registartion-tab2">
+                <form class="enter-modal__enter-block" id="js-modal-register-form" method="post" action="<?php echo $this->url('register'); ?>">
+                    <input
+                            class="enter-modal__input"
+                            type="email"
+                            name="email"
+                            pattern="^[\w\-\.\_]+@([\w\-]+\.)+[a-z]+$"
+                            placeholder="Электронная почта"
+                    />
+                    <label class="enter-modal__agree">
+                        <input class="enter-modal__checkbox js-confirm-checkbox" type="checkbox" required/><span class="enter-modal__agree-text"> Согласен с&nbsp;
+                            <!--                            <a class="enter-modal__link" href="#">условиями использования</a>   и&nbsp;-->
+                            <a class="enter-modal__link" href="/docs/privacy_policy.odt" target="_blank">политикой конфиденциальности</a></span>
+                    </label>
+                    <input class="btn btn_enter enter-modal__btn" type="submit" value="Зарегистрироваться"/>
+                </form>
+            </div>
+        </div>
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="active" role="presentation"><a href="#enter-tab2" aria-controls="home" role="tab" data-toggle="tab">Войти</a></li>
+            <li role="presentation"><a href="#password-tab2" aria-controls="home" role="tab" data-toggle="tab">Восстановить пароль</a></li>
+            <li role="presentation"><a href="#registartion-tab2" aria-controls="home" role="tab" data-toggle="tab">Зарегистрироваться</a></li>
+        </ul>
+        <div class="clear"></div>
+    </div>
+</div>

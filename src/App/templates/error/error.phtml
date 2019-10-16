@@ -1,0 +1,17 @@
+<?php $this->headTitle(sprintf('%d %s', $this->status, $this->reason)); ?>
+
+<section class="error-block">
+    <div class="error-block__inner inner">
+        <h1 class="error-block__not-found">Ошибка сервера!
+        </h1>
+        <p class="error-block__number">500
+        </p>
+        <p class="error-block__text">Произошла непредвиденная ошибка на стороне сервера.
+        </p>
+        <p class="error-block__text">
+            Пожалуйста, обратитесь в службу технической поддержки
+            <a href="tel:88007005409">8-800-700-54-09</a>, <a href="tel:+7412734984">+7 (4712) 734-984</a>
+            или перейдите на <a href="<?php echo $this->url('home');?>">главную страницу</a>.
+        </p>
+    </div>
+</section>

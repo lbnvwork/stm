@@ -1,0 +1,95 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: KiisChivarino
+ * Date: 05.04.19
+ * Time: 12:04
+ */
+/** @var \Office\Entity\LkFirm $firmware */
+?>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_content">
+                <h3>
+                    <?php
+                    echo $this->isNew($this->url()) ? 'Добавление' : 'Редактирование';
+                    echo ' прошивки';
+                    ?>
+                </h3>
+                <form class="form-horizontal form-label-left" enctype="multipart/form-data" method="post" action="?">
+                    <div class="form-group row">
+                        <label
+                                class="control-label col-md-3 col-sm-3 col-xs-12" for="firmVid">Вид прошивки
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <select class="js-example-basic-single select2-hidden-accessible_width" name="vid" id="vid">
+                                <?php
+                                /** @var \Office\Entity\RefFirmVid $firmVid */
+                                foreach ($data['vid'] as $firmVid) {
+                                    ?>
+                                    <option
+                                            value="<?php echo $firmVid->getId(); ?>"
+                                        <?php if (!$this->isNew($this->url()) && $firmware->getVid()->getId() == $firmVid->getId()) {
+                                            echo 'selected ';
+                                        } ?>
+                                    ><?php echo $firmVid->getName(); ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="inf">Заголовок прошивки</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input class="form-control col-md-7 col-xs-12" id="inf" name="inf"
+                                   value="<?php echo !$this->isNew($this->url()) ? $firmware->getInf() : ''; ?>"
+                            />
+                        </div>
+                    </div>
+                    <div class="item form-group row">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="file">
+                            Файл прошивки <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input
+                                    id="file"
+                                    class="col-md-7 col-xs-12"
+                                    name="file"
+                                    type="file" <?php echo $this->isNew($this->url()) ? 'required' : ''; ?>
+                                    value="<?php echo !$this->isNew($this->url()) ? $firmware->getFilename() : ''; ?>"
+                            >
+                        </div>
+                    </div>
+                    <?php if (!$this->isNew($this->url())) { ?>
+                        <div class="item form-group row">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="size">
+                                Имя файла
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input id="size" class="form-control col-md-7 col-xs-12" disabled="" value="<?php echo basename($firmware->getFilename()) ?>">
+                            </div>
+                        </div>
+                        <div class="item form-group row">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="size">
+                                Размер файла
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input id="size" class="form-control col-md-7 col-xs-12" disabled="" value="<?php echo round($firmware->getSize() / 1024, 2).' Кбайт' ?>">
+                            </div>
+                        </div>
+                        <div class="item form-group row">
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <a class="buttonNext btn btn-success" href="<?php echo '/'.$firmware->getFilename() ?>"><i class="fa fa-floppy-o"></i> &nbsp Скачать прошивку</a>
+                            </div>
+                        </div>
+                    <?php } ?>
+                    <div class="actionBar">
+                        <button class="buttonNext btn btn-success">
+                            <?php echo $this->isNew($this->url()) ? 'Добавить' : 'Изменить'; ?>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

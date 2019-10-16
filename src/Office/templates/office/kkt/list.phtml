@@ -1,0 +1,80 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: KiisChivarino
+ * Date: 05.04.19
+ * Time: 12:04
+ */
+/** @var \Auth\Entity\User $user */
+/** @var Zend\View\Renderer\PhpRenderer $this */
+/** @var array $kktArr */
+?>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h3>Кассы</h3>
+                <a href="<?php echo $this->url('office.kkt.new'); ?>" class="btn btn-primary pull-right">Добавить</a>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <?php
+                foreach ($kktArr as $kkts) { ?>
+                    <h4><?php echo $this->escapeHtml($kkts['company']->getName()); ?></h4>
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th class="th">Название</th>
+                            <th class="th">
+                                <div class="pull-right">Действия</div>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php
+                        /** @var \Office\Entity\LkKkt $kkt */
+                        foreach ($kkts['kkts'] as $kkt) {
+                            ?>
+                            <tr>
+                                <td class="td">
+                                    <a href="<?php echo $this->url('office.kkt.item', ['id' => $kkt->getId()]); ?>">
+                                        <?php echo $this->escapeHtml($kkt->getMachineNumber()); ?>
+                                    </a>
+                                </td>
+                                <td class="td">
+                                    <div class="pull-right">
+                                        <?php if (!$this->isPropertyCtoUser($user, $kkts['company'])) { ?>
+                                            <a
+                                                    href="<?php echo $this->url('office.kkt.item', ['id' => $kkt->getId()]); ?>"
+                                                    class="btn btn-primary"
+                                                    title="Редактирование кассы"
+                                            >
+                                                <span class="glyphicon glyphicon-pencil"></span>
+                                            </a>
+                                            <button class="btn btn-danger js-office-element-remove"
+                                                    data-url="<?php echo $this->url('office.kkt.item', ['id' => $kkt->getId()]); ?>"
+                                                    title="Удаление кассы">
+                                                <span class="glyphicon glyphicon-remove-sign"></span>
+                                            </button>
+                                        <?php } else { ?>
+                                            <a
+                                                    href="<?php echo $this->url('office.kkt.item', ['id' => $kkt->getId()]); ?>"
+                                                    class="btn btn-primary"
+                                                    title="Просмотр кассы"
+                                            >
+                                                <span class="glyphicon glyphicon-eye-open"></span>
+                                            </a>
+                                        <?php } ?>
+                                    </div>
+                                </td>
+                            </tr>
+                            <?php
+                        }
+                        ?>
+                        </tbody>
+                    </table>
+                <?php } ?>
+            </div>
+        </div>
+    </div>
+</div>

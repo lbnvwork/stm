@@ -1,0 +1,157 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: KiisChivarino
+ * Date: 05.04.19
+ * Time: 12:04
+ */
+/** @var \Office\Entity\LkCompany $company */
+/** @var array $refData */
+/** @var array $formulaData */
+/** @var \Auth\Entity\User $user */
+?>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_content">
+                <h3>
+                    <?php
+                    if (!$this->isPropertyCtoUser($user, $company ?? null)) {
+                        echo $this->isNew($this->url()) ? 'Добавление' : 'Редактирование';
+                    } else {
+                        echo 'Просмотр';
+                    }
+                    echo ' компании';
+                    ?>
+                </h3>
+                <form class="form-horizontal form-label-left" <?php echo $this->isNew($this->url()) ? 'id="js-company-form"' : ''; ?> method="post" action="?">
+                    <div class="form-group">
+                        <label
+                                class="control-label col-md-3 col-sm-3 col-xs-12"
+                                for="company-name">Наименование юр.лица <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input type="text"
+                                   id="company-name"
+                                <?php if (!$this->isPropertyCtoUser($user, $company ?? null)) { ?>
+                                    name="name"
+                                <?php } ?>
+                                   class="form-control col-md-7 col-xs-12"
+                                   required="required"
+                                <?php if ($this->isPropertyCtoUser($user, $company ?? null)) {
+                                    echo 'disabled';
+                                } ?>
+                                   value="<?php echo !$this->isNew($this->url()) ? $this->escapeHtmlAttr($company->getName()) : ''; ?>"
+                            />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="inn">ИНН <span class="required">*</span></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input
+                                    class="form-control col-md-7 col-xs-12"
+                                    type="text"
+                                    id="inn"
+                                <?php if (!$this->isPropertyCtoUser($user, $company ?? null)) { ?>
+                                    name="inn"
+                                <?php } ?>
+                                    required="required"
+                                <?php if ($this->isPropertyCtoUser($user, $company ?? null)) {
+                                    echo 'disabled';
+                                } ?>
+                                    value="<?php echo !$this->isNew($this->url()) ? $this->escapeHtmlAttr($company->getInn()) : ''; ?>"
+                            />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="company-email">E-mail</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input
+                                    class="form-control col-md-7 col-xs-12"
+                                    type="text"
+                                    id="company-email"
+                                <?php if (!$this->isPropertyCtoUser($user, $company ?? null)) { ?>
+                                    name="companyEmail"
+                                <?php } ?>
+                                <?php if ($this->isPropertyCtoUser($user, $company ?? null)) {
+                                    echo 'disabled';
+                                } ?>
+                                    value="<?php echo !$this->isNew($this->url()) ? $this->escapeHtmlAttr($company->getCompanyEmail()) : ''; ?>"
+                            />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="taxation-type-id">Система налогообложения</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <select
+                                    class="js-example-basic-multiple select2-hidden-accessible_width" style="width: 100%"
+                                <?php if (!$this->isPropertyCtoUser($user, $company ?? null)) { ?>
+                                    name="taxationTypeId[]"
+                                <?php } ?>
+                                    id="taxation-type-id"
+                                    multiple="multiple"
+                                <?php if ($this->isPropertyCtoUser($user, $company ?? null)) {
+                                    echo 'disabled';
+                                } ?>
+                            >
+                                <?php
+                                /** @var \Office\Entity\RefTaxationType $taxationType */
+                                foreach ($data['taxationTypes'] as $taxationType) { ?>
+                                    <option value="<?php echo $this->escapeHtmlAttr($taxationType->getId()); ?>"
+                                        <?php if (!$this->isNew($this->url()) && in_array($taxationType->getId(), $formulaData['taxationTypes'] ?? [])) {
+                                            echo 'selected ';
+                                        } ?>>
+                                        <?php echo $this->escapeHtml($taxationType->getName()); ?>
+                                    </option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="ofd-inn">ИНН ОФД</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input
+                                    class="form-control col-md-7 col-xs-12"
+                                    type="text"
+                                    id="ofd-inn"
+                                <?php if (!$this->isPropertyCtoUser($user, $company ?? null)) { ?>
+                                    name="ofdInn"
+                                <?php } ?>
+                                <?php if ($this->isPropertyCtoUser($user, $company ?? null)) {
+                                    echo 'disabled';
+                                } ?>
+                                    value="<?php echo !$this->isNew($this->url()) ? $this->escapeHtmlAttr($company->getOfdInn()) : ''; ?>"
+                            />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="ofd-name">Наименование ОФД</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input
+                                    class="form-control col-md-7 col-xs-12"
+                                    type="text"
+                                    id="ofd-name"
+                                <?php if (!$this->isPropertyCtoUser($user, $company ?? null)) { ?>
+                                    name="ofdName"
+                                <?php } ?>
+                                <?php if ($this->isPropertyCtoUser($user, $company ?? null)) {
+                                    echo 'disabled';
+                                } ?>
+                                    value="<?php echo !$this->isNew($this->url()) ? $this->escapeHtmlAttr($company->getOfdName()) : ''; ?>"
+                            />
+                        </div>
+                    </div>
+                    <div class="actionBar">
+                        <?php if (!$this->isPropertyCtoUser($user, $company ?? null)) { ?>
+                            <button class="buttonNext btn btn-success" <?php echo $this->isNew($this->url()) ? 'id="js-company-add"' : ''; ?> >
+                                <?php echo $this->isNew($this->url()) ? 'Добавить компанию' : 'Сохранить изменения'; ?>
+                            </button>
+                        <?php } else { ?>
+                            <a class="buttonNext btn btn-success" href="<?php echo $this->url('office.company.list'); ?>">Назад</a>
+                        <?php } ?>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,248 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: KiisChivarino
+ * Date: 23.04.19
+ * Time: 16:16
+ */
+/** @var \Office\Entity\LkDb $db */
+/** @var array $products */
+/** @var Zend\View\Renderer\PhpRenderer $this */
+/** @var \Auth\Entity\User[] $users */
+/** @var \Permission\Entity\Role[] $roles */
+/** @var array $paginator */
+/** @var \Auth\Entity\User $user */
+?>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h3>Список товаров для базы <?php echo $db->getName() ?></h3>
+                <div class="form-group row">
+                    <button
+                            class="buttonNext btn btn-success js-office-import-modal"
+                            data-toggle="modal"
+                            data-target="#importProductsModal"
+                            data-url="<?php echo $this->url('office.product.import', ['id' => $db->getId()]) ?>"
+                    >
+                        <?php echo 'Импорт списка товаров'; ?>
+                    </button>
+                    <button
+                            class="buttonNext btn btn-success js-office-product-new office-product-new_margin"
+                            data-toggle="modal"
+                            data-target="#itemProductModal"
+                            data-url="<?php echo $this->url('office.product.add', ['id' => $db->getId()]) ?>"
+                    >
+                        <?php echo 'Добавить товар'; ?>
+                    </button>
+                    <a
+                            class="buttonNext btn btn-success office-product-new_margin"
+                            href="<?php echo $this->url('office.product.clear', ['id' => $db->getId()]) ?>"
+                    >
+                        <?php echo 'Очистить базу товаров'; ?>
+                    </a>
+                </div>
+            </div>
+            <div class="x_content">
+                <form action="?" method="get" class="form-inline">
+                    <h5>Фильтр</h5>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="strih"
+                               value="<?php echo htmlspecialchars($paginator['query']['strih']) ?>"
+                               placeholder="Штрихкод">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="name"
+                               value="<?php echo htmlspecialchars($paginator['query']['name']) ?>"
+                               placeholder="Наименование">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="section"
+                               value="<?php echo $this->escapeHtmlAttr($paginator['query']['section']) ?>"
+                               placeholder="Секция">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary form-control">Применить</button>
+                    </div>
+                </form>
+                <br>
+                <table class="table table-hover base-table table_product-name">
+                    <thead>
+                    <tr>
+                        <th class="th">
+                            <a href="<?php echo $this->url(
+                                'office.product.list', [], [
+                                    'sort' => 'serialNumber',
+                                    'order' => $order
+                                ]
+                            ); ?>">
+                                №
+                            </a>
+                            <?php if ($sortType === 'serialNumber') { ?>
+                                <span class="fa fa-chevron-<?php echo $this->escapeHtmlAttr($chevron); ?>"></span>
+                            <?php } ?>
+                            </th>
+                        <th class="th">
+                            <a href="<?php echo $this->url(
+                                'office.product.list', [], [
+                                    'sort' => 'strih',
+                                    'order' => $order
+                                ]
+                            ); ?>">
+                                Штрихкод
+                            </a>
+                            <?php if ($sortType === 'strih') { ?>
+                                <span class="fa fa-chevron-<?php echo $this->escapeHtmlAttr($chevron); ?>"></span>
+                            <?php } ?>
+                        </th>
+                        <th class="th">
+                            <a href="<?php echo $this->url(
+                                'office.product.list', [], [
+                                    'sort' => 'name',
+                                    'order' => $order
+                                ]
+                            ); ?>">
+                                Наименование
+                            </a>
+                            <?php if ($sortType === 'name') { ?>
+                                <span class="fa fa-chevron-<?php echo $this->escapeHtmlAttr($chevron); ?>"></span>
+                            <?php } ?>
+                        </th>
+                        <th class="th">
+                            <a href="<?php echo $this->url(
+                                'office.product.list', [], [
+                                    'sort' => 'count',
+                                    'order' => $order
+                                ]
+                            ); ?>">
+                                Количество
+                            </a>
+                            <?php if ($sortType === 'count') { ?>
+                                <span class="fa fa-chevron-<?php echo $this->escapeHtmlAttr($chevron); ?>"></span>
+                            <?php } ?>
+                        </th>
+                        <th class="th">
+                            <a href="<?php echo $this->url(
+                                'office.product.list', [], [
+                                    'sort' => 'unitMeasure',
+                                    'order' => $order
+                                ]
+                            ); ?>">
+                                Единица изм.
+                            </a>
+                            <?php if ($sortType === 'unitMeasure') { ?>
+                                <span class="fa fa-chevron-<?php echo $this->escapeHtmlAttr($chevron); ?>"></span>
+                            <?php } ?>
+                        </th>
+                        <th class="th">
+                            <a href="<?php echo $this->url(
+                                'office.product.list', [], [
+                                    'sort' => 'section',
+                                    'order' => $order
+                                ]
+                            ); ?>">
+                                Секция
+                            </a>
+                            <?php if ($sortType === 'section') { ?>
+                                <span class="fa fa-chevron-<?php echo $this->escapeHtmlAttr($chevron); ?>"></span>
+                            <?php } ?>
+                        </th>
+                        <th class="th">
+                            <a href="<?php echo $this->url(
+                                'office.product.list', [], [
+                                    'sort' => 'price',
+                                    'order' => $order
+                                ]
+                            ); ?>">
+                                Цена
+                            </a>
+                            <?php if ($sortType === 'price') { ?>
+                                <span class="fa fa-chevron-<?php echo $this->escapeHtmlAttr($chevron); ?>"></span>
+                            <?php } ?>
+                        </th>
+                        <th class="th">
+                            <div class="pull-right">Действия</div>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                    /** @var \Office\Entity\LkProduct $product */
+                    foreach ($products as $product) {
+                        ?>
+                        <tr>
+                            <td class="td">
+                                <?php echo $this->escapeHtml($product->getSerialNumber())+1; ?>
+                            </td>
+                            <td class="td long">
+                                <?php echo $this->escapeHtml($product->getStrih()); ?>
+                            </td>
+                            <td class="td long">
+                                <a
+                                        href="#"
+                                        class="js-office-product-item"
+                                        data-toggle="modal"
+                                        data-target="#itemProductModal"
+                                        data-url="<?php echo $this->url(
+                                            'office.product.item', [
+                                                'id' => $db->getId(),
+                                                'pid' => $product->getId()
+                                            ]
+                                        ); ?>">
+                                    <?php echo $this->escapeHtml($product->getName()); ?>
+                                </a>
+                            </td>
+                            <td class="td">
+                                <?php echo $this->escapeHtml($product->getCount()); ?>
+                            </td>
+                            <td class="td">
+                                <?php echo $this->escapeHtml($product->getUnitMeasure()); ?>
+                            </td>
+                            <td class="td">
+                                <?php echo $this->escapeHtml($product->getSection()); ?>
+                            </td>
+                            <td class="td">
+                                <?php echo $this->escapeHtml($product->getPrice()); ?>
+                            </td>
+                            <td class="td long">
+                                <div class="pull-right">
+                                    <button
+                                            class="btn btn-primary pull-right js-office-product-item"
+                                            data-toggle="modal"
+                                            data-target="#itemProductModal"
+                                            data-url="<?php echo $this->url(
+                                                'office.product.item', [
+                                                    'id' => $db->getId(),
+                                                    'pid' => $product->getId()
+                                                ]
+                                            ); ?>"
+                                            data-id="<?php echo $product->getId(); ?>"
+                                            title="Редактирование товара"
+                                    >
+                                        <span class="glyphicon glyphicon-pencil"></span>
+                                    </button>
+                                    <button class="btn btn-danger js-office-element-remove"
+                                            data-url="<?php echo $this->url(
+                                                'office.product.delete', [
+                                                    'id' => $db->getId(),
+                                                    'pid' => $product->getId()
+                                                ]
+                                            ); ?>"
+                                            title="Удаление товара">
+                                        <span class="glyphicon glyphicon-remove-sign"></span>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <?php
+                    }
+                    ?>
+                    </tbody>
+                </table>
+                <?php echo $this->paginator($paginator, 'office::paginator'); ?>
+            </div>
+        </div>
+    </div>
+</div>
+<?php echo $this->partial('office::product/add-modal'); ?>
+<?php echo $this->partial('office::product/import-modal'); ?>

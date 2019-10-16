@@ -1,0 +1,111 @@
+<main>
+    <div class="enter-form">
+        <iframe src="https://www.youtube.com/embed/2VGRme-OLD4?autoplay=1&amp;loop=1&amp;amp&amp;mute=1&amp;enablejsapi=1&amp;playlist=2VGRme-OLD4" frameborder="0"
+                allowfullscreen="allowfullscreen"></iframe>
+        <div class="enter-form__inner">
+            <div class="inner">
+                <div class="enter-form__title">Личный кабинет ККТ «Счетмаш»
+                </div>
+                <?php if (!$user) { ?>
+                    <div class="enter-form__form">
+                        <div class="enter-switcher">
+                            <div class="tab-content">
+                                <div class="tab-pane active" role="tabpanel" id="enter-tab">
+                                    <form class="enter-switcher__enter-block" method="post" action="<?php echo $this->url('login'); ?>">
+                                        <input class="enter-switcher__input" type="text" placeholder="Логин" name="username"/>
+                                        <input class="enter-switcher__input" type="password" placeholder="Пароль" name="password"/>
+                                        <input class="btn btn_enter enter-switcher__btn" type="submit" value="Войти"/>
+                                    </form>
+                                </div>
+                                <div class="tab-pane" role="tabpanel" id="password-tab">
+                                    <form class="enter-switcher__enter-block" method="post" action="<?php echo $this->url('user.forget'); ?>">
+                                        <input class="enter-switcher__input" type="email" name="email" placeholder="Электронная почта"/>
+                                        <input class="btn btn_enter enter-switcher__btn" type="submit" value="Восстановить"/>
+                                    </form>
+                                </div>
+                                <div class="tab-pane" role="tabpanel" id="registartion-tab">
+                                    <form id="js-register-form" class="enter-switcher__enter-block" method="post" action="<?php echo $this->url('register'); ?>">
+                                        <input
+                                                class="enter-switcher__input"
+                                                type="email"
+                                                name="email"
+                                                placeholder="Электронная почта"
+                                                pattern="^[\w\-\.\_]+@([\w\-]+\.)+[a-z]+$"
+                                        />
+                                        <label class="enter-switcher__agree">
+                                            <input class="enter-switcher__checkbox" type="checkbox" required><span class="enter-switcher__agree-text js-confirm-checkbox"> Согласен с&nbsp;<a
+                                                        class="enter-switcher__link" href="#">условиями использования</a>   и&nbsp;<a class="enter-switcher__link" href="#">политикой конфиденциальности</a></span>
+                                        </label>
+                                        <input class="btn btn_enter enter-switcher__btn" type="submit" value="Зарегистрироваться"/>
+                                    </form>
+                                </div>
+                            </div>
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li class="active" role="presentation"><a href="#enter-tab" aria-controls="home" role="tab" data-toggle="tab">Войти</a></li>
+                                <li role="presentation"><a href="#password-tab" aria-controls="home" role="tab" data-toggle="tab">Восстановить пароль</a></li>
+                                <li role="presentation"><a href="#registartion-tab" aria-controls="home" role="tab" data-toggle="tab">Зарегистрироваться</a></li>
+                            </ul>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                <?php } ?>
+            </div>
+        </div>
+    </div>
+    <div class="scheme">
+        <div class="inner scheme__inner">
+            <div class="head-text bold">Работать с кассовой техникой «Счетмаш» удобно</div>
+            <div class="scheme__items-block">
+                <div class="scheme__item-block">
+                    <div class="scheme__item"><i class="fa fa-stopwatch"></i>
+                    </div>
+                    <div>ЗИП всегда в наличии
+                    </div>
+                </div>
+                <div class="scheme__item-block">
+                    <div class="scheme__item"><i class="fa fa-comment-dots"></i>
+                    </div>
+                    <div>Бесплатная тех. поддержка по телефону
+                    </div>
+                </div>
+                <div class="scheme__item-block">
+                    <div class="scheme__item"><i class="fa fa-tags"></i>
+                    </div>
+                    <div>Система скидок для ЦТО
+                    </div>
+                </div>
+                <div class="scheme__item-block">
+                    <div class="scheme__item"><i class="fa fa-award"></i>
+                    </div>
+                    <div>Гарантия на ККТ 10 лет
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="document">
+        <div class="document__inner inner">
+            <div class="head-text head-text_bold">Техническая документация</div>
+            <div class="document__docs-block">
+                <div class="document__doc">
+                    <div class="bold document__kassa">Для касс
+                    </div>
+                    <div class="document__kassa">ЭКР 2102-Ф
+                    </div>
+                    <div class="document__kassa">Миника 1102МК-Ф
+                    </div>
+                    <div class="document__kassa">Миника 1105К-Ф
+                    </div>
+                    <a class="btn btn_enter document__download" href="/docs/doc_soft_schetmash.zip">Скачать</a>
+                </div>
+                <div class="document__doc">
+                    <div class="bold document__kassa">Для фискального регистратора
+                    </div>
+                    <div class="document__kassa">Феликс-РМФ
+                    </div>
+                    <a class="btn btn_enter document__download" href="/docs/doc_soft_felix.zip">Скачать</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

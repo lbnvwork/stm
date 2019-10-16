@@ -1,0 +1,81 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: KiisChivarino
+ * Date: 05.04.19
+ * Time: 12:04
+ */
+/** @var Zend\View\Renderer\PhpRenderer $this */
+/** @var \Auth\Entity\User $user */
+/** @var array $companies */
+?>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h3>Компании</h3>
+                <a href="<?php echo $this->url('office.company.new'); ?>" class="btn btn-primary pull-right">Добавить</a>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th class="th">Название</th>
+                        <th class="th">
+                            <div class="pull-right">Действия</div>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                    /** @var \Office\Entity\LkCompany $company */
+                    foreach ($companies as $company) {
+                        ?>
+                        <tr>
+                            <th class="td">
+                                <?php if (!$this->isPropertyCtoUser($user, $company)) { ?>
+                                    <a href="<?php echo $this->url('office.company.item', ['id' => $company->getId()]); ?>">
+                                        <?php echo $this->escapeHtml($company->getName()); ?>
+                                    </a>
+                                <?php } else {
+                                    echo $this->escapeHtml($company->getName());
+                                } ?>
+                            </td>
+                            <th class="td">
+                                <div class="pull-right">
+                                    <?php if (!$this->isPropertyCtoUser($user, $company)) { ?>
+                                        <a
+                                                href="<?php echo $this->url('office.company.item', ['id' => $company->getId()]); ?>"
+                                                class="btn btn-primary"
+                                                title="Редактирование компании"
+                                        >
+                                            <span class="glyphicon glyphicon-pencil"></span>
+                                        </a>
+                                        <button class="btn btn-danger js-office-element-remove"
+                                                data-url="<?php echo $this->url('office.company.item', ['id' => $company->getId()]); ?>"
+                                                title="Удаление компании">
+                                            <span class="glyphicon glyphicon-remove-sign"></span>
+                                        </button>
+                                    <?php } else { ?>
+                                        <a
+                                                href="<?php echo $this->url('office.company.item', ['id' => $company->getId()]); ?>"
+                                                class="btn btn-primary"
+                                                title="Просмотр компании"
+                                        >
+                                            <span class="glyphicon  glyphicon-eye-open"></span>
+                                        </a>
+                                    <?php } ?>
+                                </div>
+                            </td>
+                        </tr>
+                        <?php
+                    }
+                    ?>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>

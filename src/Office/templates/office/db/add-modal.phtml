@@ -1,0 +1,40 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: KiisChivarino
+ * Date: 23.04.19
+ * Time: 14:56
+ */ ?>
+<!-- Modal -->
+<div class="modal fade" id="itemDbModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="setRnmModalLabel"><span class="js-add-modal-title">Добавление</span> базы товаров</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <label
+                            class="control-label col-md-3 col-sm-3 col-xs-12" for="db-name">Наименование базы товаров <span class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input type="text" id="db-name" name="name" class="form-control col-md-7 col-xs-12" required="required"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label
+                            class="control-label col-md-3 col-sm-3 col-xs-12" for="db-name">Максимальное количество товаров <span class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input type="text" id="db-count" name="maxCount" class="form-control col-md-7 col-xs-12" required="required"/>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary js-office-close-modal" data-dismiss="modal">Отмена</button>
+                <button type="button" data-url="" class="btn btn-success js-office-db-set">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</div>

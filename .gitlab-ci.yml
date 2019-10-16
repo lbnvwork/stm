@@ -1,0 +1,128 @@
+stages:
+  - preparation
+  - testing
+  - clear_fail
+  - build
+  - clear
+
+variables:
+  GIT_CLONE_PATH: $CI_BUILDS_DIR/$CI_CONCURRENT_ID/$CI_PROJECT_PATH/$CI_BUILD_REF_NAME
+
+
+composer:
+  stage: preparation
+  script:
+    - cp .env.dist .env
+    - docker build --build-arg server_uid=1001 -t app_cli_${CI_PIPELINE_ID} docker/php_cli
+    - docker run --rm -v "$PWD":/var/www/html -w /var/www/html app_cli_${CI_PIPELINE_ID} sudo -E -u www-data composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
+  artifacts:
+    paths:
+      - vendor/
+    expire_in: 1 days
+    when: always
+  cache:
+    key: "$CI_BUILD_REF_NAME"
+    paths:
+      - vendor/
+
+
+test:
+  stage: testing
+  script:
+    - docker run --rm -v "$PWD":/var/www/html -w /var/www/html app_cli_${CI_PIPELINE_ID} sudo -E -u www-data composer test-gitlab
+  dependencies:
+    - composer
+
+codestyle:
+  stage: testing
+  script:
+    - docker run --rm -v "$PWD":/var/www/html -w /var/www/html app_cli_${CI_PIPELINE_ID} sudo -E -u www-data composer cs-check
+  dependencies:
+    - composer
+
+phpcpd:
+  stage: testing
+  script:
+    - docker run --rm -v "$PWD":/var/www/html -w /var/www/html app_cli_${CI_PIPELINE_ID} sudo -E -u www-data composer phpcpd
+  dependencies:
+    - composer
+
+
+#Конфигурация для develop
+develop:
+  stage: build
+  tags:
+    - ssh-develop
+  environment:
+    name: $CI_BUILD_REF_NAME
+    url: https://stm.schetmash$CI_PIPELINE_ID.test
+    on_stop: clear
+  when: manual
+  script:
+    - cp .env.dist .env
+    - sed -i -e "s/UID=1000/UID=1001/g" .env
+    - test -d data/design && rm -rf data/design
+    - mkdir data/design
+    - cd data/design
+    - git init
+    - git remote add auth git@git.keaz.ru:schetmash/lk_stm/design.git
+    - git fetch auth
+    - git checkout master
+    - cd ../../
+    - cp -r /home/develop/keaz-files/.ssh  docker/php/.ssh  #ключи для ssh
+    #    - cp -r /home/develop/schetmash/online-module/app/upload public/upload
+    - sed -i -e "s/TEST_DOMAIN/stm.schetmash$CI_PIPELINE_ID.test/g" docker-compose-gitlab.yml    #Замена имени домена
+    - docker-compose -f docker-compose-gitlab.yml down #на случай ребилда
+    - docker-compose -f docker-compose-gitlab.yml up -d --build  #билд образов
+    - work_dir=`dirname $0`
+    - p=`pwd`
+    - containerName=`basename $p`
+    - containerName="${containerName//./}"
+    - containerName="${containerName//-/}"
+    - docker exec ${containerName}_app_1 bash -c "cd ../ && sudo -E -u www-data ./install.sh $CI_PIPELINE_ID"  #запуск скрипта первичной настройки проекта
+
+
+clear_test:
+  stage: clear
+  dependencies:
+    - test
+    - codestyle
+    - phpcpd
+  script:
+    - docker-compose -f docker-compose-gitlab.yml down
+  #    - cd ../
+  #    - test -d $CI_PIPELINE_ID.tmp &&  echo password | sudo -S rm -rf $CI_PIPELINE_ID.tmp
+  #    - test -d $CI_PIPELINE_ID &&  echo password | sudo -S rm -rf $CI_PIPELINE_ID
+  #    - mkdir $CI_PIPELINE_ID
+  when: on_success
+
+clear_fail:
+  stage: clear
+  dependencies:
+    - test
+    - codestyle
+    - phpcpd
+    - develop
+  when: on_failure
+  script:
+    - docker-compose -f docker-compose-gitlab.yml down
+#    - cd ../
+#    - test -d $CI_PIPELINE_ID.tmp &&  echo password | sudo -S rm -rf $CI_PIPELINE_ID.tmp
+#    - test -d $CI_PIPELINE_ID &&  echo password | sudo -S rm -rf $CI_PIPELINE_ID
+#    - mkdir $CI_PIPELINE_ID
+
+clear:
+  stage: clear
+  tags:
+    - ssh-develop
+  environment:
+    name: $CI_BUILD_REF_NAME
+    action: stop
+  script:
+    - docker-compose -f docker-compose-gitlab.yml down
+  #    - cd ../
+  #    - test -d $CI_PIPELINE_ID.tmp &&  echo password | sudo -S rm -rf $CI_PIPELINE_ID.tmp
+  #    - test -d $CI_PIPELINE_ID &&  echo password | sudo -S rm -rf $CI_PIPELINE_ID
+  #    - mkdir $CI_PIPELINE_ID
+  when: manual
+  dependencies: []

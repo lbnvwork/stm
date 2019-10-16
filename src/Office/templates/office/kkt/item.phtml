@@ -1,0 +1,377 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: KiisChivarino
+ * Date: 05.04.19
+ * Time: 12:04
+ */
+/** @var \Office\Entity\LkKkt $kkt */
+/** @var array $lkData */
+/** @var array $refData */
+/** @var array $formulaData */
+/** @var \Auth\Entity\User $user */
+?>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_content">
+                <h3>
+                    <?php
+                    if ($this->isNew($this->url())) {
+                        echo 'Добавление';
+                    } elseif ($this->isPropertyCtoUser($user, $kkt->getCompany()) ?? null) {
+                        echo 'Просмотр';
+                    } else {
+                        echo 'Редактирование';
+                    }
+                    echo ' кассы';
+                    ?>
+                </h3>
+                <form class="form-horizontal form-label-left" <?php echo $this->isNew($this->url()) ? 'id="js-kkt-form"' : ''; ?> method="post" action="?">
+                    <div class="form-group">
+                        <label
+                                class="control-label col-md-3 col-sm-3 col-xs-12" for="company">Компания <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <select
+                                    class="js-example-basic-single select2-hidden-accessible_width"
+                                    style="width: 100%"
+                                <?php if (!$this->isNew($this->url()) && $this->isPropertyCtoUser($user, $kkt->getCompany()) ?? null) { ?>
+                                    disabled
+                                <?php } else { ?>
+                                    name="company"
+                                <?php } ?>
+                                    id="company"
+                            >
+                                <?php /** @var \Office\Entity\LkCompany $company */
+                                foreach ($data['companies'] as $company) {
+                                    ?>
+                                    <option
+                                            value="<?php echo $this->escapeHtmlAttr($company->getId()); ?>"
+                                        <?php if (!$this->isNew($this->url()) && $kkt->getCompany()->getId() == $company->getId()) {
+                                            echo 'selected ';
+                                        } ?>
+                                    ><?php echo $this->escapeHtml($company->getName()); ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="seria">Серия ККТ <span class="required">*</span></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input
+                                    class="form-control col-md-7 col-xs-12"
+                                    type="number"
+                                    id="seria"
+                                <?php if (!$this->isNew($this->url()) && $this->isPropertyCtoUser($user, $kkt->getCompany()) ?? null) { ?>
+                                    disabled
+                                <?php } else { ?>
+                                    name="seria"
+                                <?php } ?>
+                                    value="<?php echo !$this->isNew($this->url()) ? $this->escapeHtml($kkt->getSeria()) : ''; ?>"
+                            />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="machine-number">Заводской номер <span class="required">*</span></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input
+                                    class="form-control col-md-7 col-xs-12"
+                                    type="text"
+                                    id="machine-number"
+                                <?php if (!$this->isNew($this->url()) && $this->isPropertyCtoUser($user, $kkt->getCompany()) ?? null) { ?>
+                                    disabled
+                                <?php } else { ?>
+                                    name="machineNumber"
+                                <?php } ?>
+                                    value="<?php echo !$this->isNew($this->url()) ? $this->escapeHtml($kkt->getMachineNumber()) : ''; ?>"
+                            />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label
+                                class="control-label col-md-3 col-sm-3 col-xs-12" for="db">База товаров
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <select
+                                    class="js-example-basic-single form-control col-md-7 col-xs-12"
+                                <?php if (!$this->isNew($this->url()) && $this->isPropertyCtoUser($user, $kkt->getCompany()) ?? null) { ?>
+                                    disabled
+                                <?php } else { ?>
+                                    name="db"
+                                <?php } ?>
+                                    id="db"
+                            >
+                                <option value="">отсутствует</option>
+                                <?php /** @var \Office\Entity\LkDb $db */
+                                foreach ($data['productRanges'] as $db) {
+                                    ?>
+                                    <option
+                                            value="<?php echo $db->getId(); ?>"
+                                        <?php if (
+                                            !$this->isNew($this->url())
+                                            && $kkt->getDb() != null
+                                            && $kkt->getDb()->getId() == $db->getId()) {
+                                            echo 'selected ';
+                                        } ?>
+                                    ><?php echo $this->escapeHtml($db->getName()); ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    </div>
+                    <!--                    <div class="form-group">-->
+                    <!--                        <label-->
+                    <!--                                class="control-label col-md-3 col-sm-3 col-xs-12" for="firmware">Прошивка-->
+                    <!--                        </label>-->
+                    <!--                        <div class="col-md-6 col-sm-6 col-xs-12">-->
+                    <!--                            <select class="js-example-basic-single form-control col-md-7 col-xs-12" name="firm" id="firmware">-->
+                    <!--                                <option value="">отсутствует</option>-->
+                    <!--                                --><?php ///** @var \Office\Entity\LkFirm $firmware */
+                    //                                foreach ($data['firmwares'] as $firmware) {
+                    //                                    ?>
+                    <!--                                    <option-->
+                    <!--                                            value="--><?php //echo $firmware->getId(); ?><!--"-->
+                    <!--                                        --><?php //if (
+                    //                                            !$this->isNew($this->url())
+                    //                                            && !empty($kkt->getFirm())
+                    //                                            && $kkt->getFirm()->getId() == $firmware->getId()
+                    //                                        ) {
+                    //                                            echo 'selected ';
+                    //                                        } ?>
+                    <!--                                    >--><?php //echo $this->escapeHtml($firmware->getSerialNumber().':'.$firmware->getInf()); ?><!--</option>-->
+                    <!--                                --><?php //} ?>
+                    <!--                            </select>-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
+                    <div class="form-group">
+                        <label
+                                class="control-label col-md-3 col-sm-3 col-xs-12" for="kkt-ffd-version">Версия ФФД ККТ
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <select
+                                    class="js-example-basic-single form-control col-md-7 col-xs-12"
+                                <?php if (!$this->isNew($this->url()) && $this->isPropertyCtoUser($user, $kkt->getCompany() ?? null)) { ?>
+                                    disabled
+                                <?php } else { ?>
+                                    name="ffdKktVersion"
+                                <?php } ?>
+                                    id="kkt-ffd-version"
+                            >
+                                <option value="">отсутствует</option>
+                                <?php /** @var \Office\Entity\RefKktFfdVersion $ffdVersion */
+                                foreach ($data['kktFfdVersions'] as $ffdVersion) {
+                                    ?>
+                                    <option
+                                            value="<?php echo $this->escapeHtmlAttr($ffdVersion->getId()); ?>"
+                                        <?php if (
+                                            !$this->isNew($this->url())
+                                            && $kkt->getFfdKktVersion() != null
+                                            && $kkt->getFfdKktVersion()->getId() == $ffdVersion->getId()
+                                        ) {
+                                            echo 'selected ';
+                                        } ?>
+                                    ><?php echo $this->escapeHtml($ffdVersion->getName()); ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="retail-address">Адрес рассчетов</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input
+                                    class="form-control col-md-7 col-xs-12"
+                                    type="text"
+                                    id="retail-address"
+                                <?php if (!$this->isNew($this->url()) && $this->isPropertyCtoUser($user, $kkt->getCompany() ?? null)) { ?>
+                                    disabled
+                                <?php } else { ?>
+                                    name="retailAddress"
+                                <?php } ?>
+                                    value="<?php echo !$this->isNew($this->url()) ? $this->escapeHtml($kkt->getRetailAddress()) : ''; ?>"
+                            />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="retail-place">Место рассчетов</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input
+                                    class="form-control col-md-7 col-xs-12"
+                                    type="text"
+                                    id="retail-place"
+                                <?php if (!$this->isNew($this->url()) && $this->isPropertyCtoUser($user, $kkt->getCompany() ?? null)) { ?>
+                                    disabled
+                                <?php } else { ?>
+                                    name="retailPlace"
+                                <?php } ?>
+                                    value="<?php echo !$this->isNew($this->url()) ? $this->escapeHtml($kkt->getRetailPlace()) : ''; ?>"
+                            />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="datetime">Дата рассчетов</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input
+                                    class="form-control col-md-7 col-xs-12"
+                                    type="text"
+                                    id="datetime"
+                                <?php if (!$this->isNew($this->url()) && $this->isPropertyCtoUser($user, $kkt->getCompany() ?? null)) { ?>
+                                    disabled
+                                <?php } else { ?>
+                                    name="datetime"
+                                <?php } ?>
+                                    value="<?php echo !$this->isNew($this->url()) ? $this->escapeHtmlAttr($kkt->getDatetime()->format('d.m.Y')) : ''; ?>"
+                            />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="kkt-reg-id">Регистрационный номер ККТ</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input
+                                    class="form-control col-md-7 col-xs-12"
+                                    type="text"
+                                    id="kkt-reg-id"
+                                <?php if (!$this->isNew($this->url()) && $this->isPropertyCtoUser($user, $kkt->getCompany() ?? null)) { ?>
+                                    disabled
+                                <?php } else { ?>
+                                    name="kktRegId"
+                                <?php } ?>
+                                    value="<?php echo !$this->isNew($this->url()) ? $this->escapeHtmlAttr($kkt->getKktRegId()) : '' ?>"
+                            />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="kkt-mode-id">Режим работы</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <select
+                                    class="js-example-basic-multiple form-control col-md-7 col-xs-12"
+                                <?php if (!$this->isNew($this->url()) && $this->isPropertyCtoUser($user, $kkt->getCompany() ?? null)) { ?>
+                                    disabled
+                                <?php } else { ?>
+                                    name="kktMode[]"
+                                <?php } ?>
+                                    id="kkt-mode-id"
+                                    multiple="multiple"
+                            >
+                                <?php
+                                /** @var \Office\Entity\RefKktMode $kktMode */
+                                foreach ($data['kktMode'] as $kktMode) { ?>
+                                    <option value="<?php echo $this->escapeHtmlAttr($kktMode->getId()); ?>"
+                                        <?php
+                                        if (
+                                            !$this->isNew($this->url())
+                                            && $kkt->getKktMode() != null
+                                            && in_array($kktMode->getId(), $formulaData['kktMode'] ?? [])
+                                        ) {
+                                            echo 'selected ';
+                                        } ?>
+                                    >
+                                        <?php echo $this->escapeHtml($kktMode->getName()); ?>
+                                    </option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="kkt-advanced-mode-id">Расширенный режим работы</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <select
+                                    class="js-example-basic-multiple form-control col-md-7 col-xs-12"
+                                <?php if (!$this->isNew($this->url()) && $this->isPropertyCtoUser($user, $kkt->getCompany() ?? null)) { ?>
+                                    disabled
+                                <?php } else { ?>
+                                    name="kktAdvancedMode[]"
+                                <?php } ?>
+                                    id="kkt-advanced-mode-id"
+                                    multiple="multiple">
+                                <?php
+                                /** @var \Office\Entity\RefKktAdvancedMode $kktAdvancedMode */
+                                foreach ($data['kktAdvancedMode'] as $kktAdvancedMode) { ?>
+                                    <option
+                                            value="<?php echo $this->escapeHtmlAttr($kktAdvancedMode->getId()); ?>"
+                                        <?php if (
+                                            !$this->isNew($this->url())
+                                            && $kkt->getKktAdvancedMode() != null
+                                            && in_array($kktAdvancedMode->getId(), $formulaData['kktAdvancedMode'] ?? [])) {
+                                            echo 'selected ';
+                                        } ?>
+                                    >
+                                        <?php echo $this->escapeHtml($kktAdvancedMode->getName()); ?>
+                                    </option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="payment-agent-type">Признак агента</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <select
+                                    class="js-example-basic-multiple form-control col-md-7 col-xs-12"
+                                <?php if (!$this->isNew($this->url()) && $this->isPropertyCtoUser($user, $kkt->getCompany() ?? null)) { ?>
+                                    disabled
+                                <?php } else { ?>
+                                    name="paymentAgentType[]"
+                                <?php } ?>
+                                    id="payment-agent-type"
+                                    multiple="multiple"
+                            >
+                                <?php
+                                /** @var \Office\Entity\RefPaymentAgentType $paymentAgentType */
+                                foreach ($data['paymentAgentType'] as $paymentAgentType) { ?>
+                                    <option
+                                            value="<?php echo $this->escapeHtmlAttr($paymentAgentType->getId()); ?>"
+                                        <?php if (
+                                            !$this->isNew($this->url())
+                                            && $kkt->getPaymentAgentType() != null
+                                            && in_array($paymentAgentType->getId(), $formulaData['paymentAgentType'] ?? [])) {
+                                            echo 'selected ';
+                                        } ?>
+                                    >
+                                        <?php echo $this->escapeHtml($paymentAgentType->getName()); ?>
+                                    </option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="fps">Фискальный признак</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input
+                                    class="form-control col-md-7 col-xs-12"
+                                    type="text"
+                                    id="fps"
+                                <?php if (!$this->isNew($this->url()) && $this->isPropertyCtoUser($user, $kkt->getCompany() ?? null)) { ?>
+                                    disabled
+                                <?php } else { ?>
+                                    name="fps"
+                                <?php } ?>
+                                    value="<?php echo !$this->isNew($this->url()) ? $this->escapeHtmlAttr($kkt->getFps()) : ''; ?>"
+                            />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="synchronization">Синхронизация</label>
+                        <input
+                                type="checkbox"
+                                id="synchronization"
+                            <?php if (!$this->isNew($this->url()) && $this->isPropertyCtoUser($user, $kkt->getCompany() ?? null)) { ?>
+                                disabled
+                            <?php } else { ?>
+                                name="synchronization"
+                            <?php } ?>
+                            <?php if (!$this->isNew($this->url()) && $kkt->getSynchronization()) echo 'checked' ?>
+                        >
+                    </div>
+                    <div class="actionBar">
+                        <?php if (!$this->isNew($this->url()) && $this->isPropertyCtoUser($user, $kkt->getCompany() ?? null)) { ?>
+                            <a class="buttonNext btn btn-success" href="<?php echo $this->url('office.kkt.list'); ?>">Назад</a>
+                        <?php } else { ?>
+                            <button class="buttonNext btn btn-success" <?php echo $this->isNew($this->url()) ? 'id="js-kkt-add"' : ''; ?>>
+                                <?php echo $this->isNew($this->url()) ? 'Добавить кассу' : 'Сохранить изменения'; ?>
+                            </button>
+                        <?php } ?>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

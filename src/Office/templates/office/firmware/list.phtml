@@ -1,0 +1,82 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: KiisChivarino
+ * Date: 05.04.19
+ * Time: 12:04
+ */
+/** @var array $firmwares */
+/** @var array $refData */
+?>
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h3>Прошивки</h3>
+                <a href="<?php echo $this->url('office.firmware.new'); ?>" class="btn btn-primary pull-right">Добавить</a>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th class="th">Номер</th>
+                        <th class="th">Тип</th>
+                        <th class="th">Доп. информация</th>
+                        <th class="th">
+                            <div class="pull-right">Действия</div>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                    /** @var \Office\Entity\LkFirm $firmware */
+                    foreach ($firmwares as $firmware) {
+                        ?>
+                        <tr>
+                            <td class="td">
+                                <a href="<?php echo $this->url('office.firmware.item', ['id' => $firmware->getId()]); ?>">
+                                    <?php echo $this->escapeHtml($firmware->getSerialNumber()); ?>
+                                </a>
+                            </td>
+                            <td class="td">
+                                <?php
+                                /** @var \Office\Entity\RefFirmVid $firmVid */
+                                foreach ($refData['firmVidArr'] as $firmVid) {
+                                    if ($firmVid->getId() == $firmware->getVid()->getId()) {
+                                        echo $this->escapeHtml($firmVid->getName());
+                                        break;
+                                    }
+                                }
+                                ?>
+                            </td>
+                            <td class="td">
+                                <?php echo $firmware->getInf(); ?>
+                            </td>
+                            <td class="td">
+                                <div class="pull-right">
+                                    <a
+                                            href="<?php echo $this->url('office.firmware.item', ['id' => $firmware->getId()]); ?>"
+                                            class="btn btn-primary"
+                                            title="Редактирование информации о прошивке"
+                                    >
+                                        <span class="glyphicon glyphicon-pencil"></span>
+                                    </a>
+                                    <button class="btn btn-danger js-office-element-remove"
+                                            data-url="<?php echo $this->url('office.firmware.item', ['id' => $firmware->getId()]); ?>"
+                                            title="Удаление прошивки">
+                                        <span class="glyphicon glyphicon-remove-sign"></span>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <?php
+                    }
+                    ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

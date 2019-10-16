@@ -1,0 +1,90 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: KiisChivarino
+ * Date: 05.04.19
+ * Time: 12:04
+ */
+/** @var array $databases */
+?>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h3>Базы товаров</h3>
+                <!--                <a href="--><?php //echo $this->url('office.db.new'); ?><!--" class="btn btn-primary pull-right">Добавить</a>-->
+                <div class="form-group row">
+                    <button class="btn btn-primary pull-right js-office-db-new" data-toggle="modal" data-target="#itemDbModal" data-url="<?php echo $this->url('office.db.add') ?>">
+                        Добавить базу
+                    </button>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th class="th">Название</th>
+                        <th class="th">Максимальное количество</th>
+                        <th class="th">
+                            <div class="pull-right">Действия</div>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                    /** @var \Office\Entity\LkDb $db */
+                    foreach ($databases as $db) {
+                        ?>
+                        <tr>
+                            <td class="td">
+                                <a
+                                        href="#"
+                                        data-url="<?php echo $this->url('office.db.item', ['id' => $db->getId()]) ?>"
+                                        data-id="<?php echo $this->escapeHtmlAttr($db->getId()); ?>"
+                                        data-target="#itemDbModal"
+                                        data-toggle="modal"
+                                        class="js-office-db-item"
+                                >
+                                    <?php echo $this->escapeHtml($db->getName()); ?>
+                                </a>
+                            </td>
+                            <td>
+                                <?php echo $this->escapeHtml($db->getMaxCount()); ?>
+                            </td>
+                            <td class="td">
+                                <div class="pull-right">
+                                    <button
+                                            class="btn btn-primary js-office-db-item"
+                                            data-toggle="modal"
+                                            data-target="#itemDbModal"
+                                            data-url="<?php echo $this->url('office.db.item', ['id' => $db->getId()]) ?>"
+                                            data-id="<?php echo $this->escapeHtmlAttr($db->getId()); ?>"
+                                            title="Редактирование базы товаров"
+                                    >
+                                        <!--                                        data-edit-url="--><?php //echo $this->url('office.db.edit',['id' => $db->getId()])?><!--"-->
+                                        <span class="glyphicon glyphicon-pencil"></span>
+                                    </button>
+                                    <a href="<?php echo $this->url('office.product.list', ['id' => $db->getId()]); ?>"
+                                       class="btn btn-info"
+                                       title="Список товаров">
+                                        <span class="glyphicon glyphicon-list"></span>
+                                    </a>
+                                    <button class="btn btn-danger js-office-element-remove"
+                                            data-url="<?php echo $this->url('office.db.delete', ['id' => $db->getId()]); ?>"
+                                            title="Удаление базы товаров">
+                                        <span class="glyphicon glyphicon-remove-sign"></span>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <?php
+                    }
+                    ?>
+                    </tbody>
+                </table>
+                <?php echo $this->partial('office::db/add-modal'); ?>
+            </div>
+        </div>
+    </div>
+</div>

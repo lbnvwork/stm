@@ -1,0 +1,57 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: KiisChivarino
+ * Date: 09.04.19
+ * Time: 9:44
+ */
+/** @var Zend\View\Renderer\PhpRenderer $this */
+?>
+<div class="top_nav">
+    <div class="nav_menu">
+        <nav>
+            <div class="nav toggle">
+                <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+            </div>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li class="">
+                    <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        <!--                        <img src="/assets/cms/images/img.jpg" alt="">-->
+                        <?php echo $this->user->getUsername(); ?>
+                        <span class=" fa fa-angle-down"></span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-usermenu pull-right">
+                        <li><a href="<?php echo $this->url('user.profile'); ?>"> Профиль</a></li>
+                        <li><a href="<?php echo $this->url('user.changePassword'); ?>"> Смена пароля</a></li>
+                        <li>
+                            <a href="<?php echo $this->url('logout'); ?>">
+                                <i class="fa fa-sign-out pull-right"></i> Выход
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <?php
+                if (isset($_SESSION['rollback']) && $_SESSION['rollback'] != null) {
+                    ?>
+                    <li class="">
+                        <a title="Вернуться в админку" href="<?php echo $this->url('user.rollback'); ?>">Вернуться</a>
+                    </li>
+                    <?php
+                }
+                ?>
+                <li class="">
+                    <a href="tel:88007005409" title="Позвонить менеджеру">
+                        8 (800) 700-54-09
+                    </a>
+                </li>
+                <li class="">
+                    <a href="/docs/instruction.pdf" target="_blank" title="Инструкция пользователя ЛК" id="instruction"
+                       style="text-decoration: underline;font-weight: bold;color: #000!important;">
+                        Инструкция пользователя ЛК
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>

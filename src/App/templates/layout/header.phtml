@@ -1,0 +1,43 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: afinogen
+ * Date: 13.03.19
+ * Time: 16:43
+ */
+/** @var \Auth\Entity\User $user */
+?>
+
+<header class="header">
+    <div class="header__inner inner"><a class="header__logo" href="<?php echo $this->url('home') ?>"></a>
+        <div class="header__contacts">
+            <div class="header__icon"><i class="fa fa-phone" aria-hidden="true"></i>
+            </div>
+            <div class="header__numbers">
+                <div><a href="tel:88007005409" target="_blank">8-800-700-54-09</a><span> - служба поддержки</span>
+                </div>
+                <div><a href="tel:+74712734994" target="_blank">+7 (4712) 734-994</a><span> - многоканальный</span>
+                </div>
+            </div>
+        </div>
+        <div class="header__contacts">
+            <div class="header__icon"><i class="fa fa-clock" aria-hidden="true"></i></div>
+            <div class="header__numbers">
+                <div>Пн - Пт
+                </div>
+                <div>8:30 - 17:00
+                </div>
+            </div>
+        </div>
+        <div class="header__enter">
+            <?php
+            if ($user != null) {
+                ?>
+                <a class="btn btn_enter" href="<?php echo $this->url('user.profile'); ?>"><i class="fa fa-user" aria-hidden="true"></i><span><?php echo $user->getEmail(); ?></span></a>
+            <?php } else {
+                ?>
+                <button class="btn btn_enter header__btn" id="js-login-header-button"><i class="fa fa-user" aria-hidden="true"></i><span>Войти</span></button>
+            <?php } ?>
+        </div>
+    </div>
+</header>

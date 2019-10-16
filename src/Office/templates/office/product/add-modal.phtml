@@ -1,0 +1,50 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: KiisChivarino
+ * Date: 23.04.19
+ * Time: 14:56
+ */ ?>
+<!-- Modal -->
+<div class="modal fade" id="itemProductModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="itemProductModalLabel"><span class="js-add-modal-title">Добавление</span> товара</h4>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="#" id="productSet">
+                    <div class="form-group">
+                        <label for="strih">Штрихкод</label>
+                        <input name="strih" id="strih" type="text" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Наименование товара</label>
+                        <input name="name" id="name" type="text" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="count">Количество товаров</label>
+                        <input name="count" id="count" type="number" step="3" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="unitMeasure">Единица измерения</label>
+                        <input name="unitMeasure" id="unitMeasure" type="text" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="section">Секция</label>
+                        <input name="section" id="section" type="number" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Цена</label>
+                        <input name="price" id="price" type="number" step="2" class="form-control" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Отмена</button>
+                        <button type="button" data-url="" class="btn btn-success js-office-product-set">Сохранить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

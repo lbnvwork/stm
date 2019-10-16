@@ -1,0 +1,110 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: KiisChivarino
+ * Date: 09.04.19
+ * Time: 9:35
+ */
+/** @var \App\Renderer\PhpRenderer $this */
+/** @var \Auth\Entity\User $user */
+/** @var \App\Service\FlashMessage $flashMessage */
+const OFFICE_USER_MENU = [
+    [
+        'icon' => 'fa fa-suitcase',
+        'url' => 'office.company.list',
+        'title' => 'Компании',
+        'permission' => [
+            'office_user.left-menu'
+        ]
+    ],
+    [
+        'icon' => 'fa fa-laptop',
+        'url' => 'office.kkt.list',
+        'title' => 'Кассы',
+        'permission' => [
+            'office_user.left-menu'
+        ],
+    ],
+    [
+        'icon' => 'fa fa-database',
+        'url' => 'office.db.list',
+        'title' => 'Базы товаров',
+        'permission' => [
+            'office_user.left-menu'
+        ],
+    ],
+//    [
+//        'icon' => 'fa fa-plug',
+//        'url' => 'office.firmware.list',
+//        'title' => 'Прошивки',
+//        'permission' => [
+//            'office_user.left-menu'
+//        ],
+//    ],
+    [
+        'icon' => 'fa fa-users',
+        'url' => 'office.customer.list',
+        'title' => 'Клиенты ЦТО',
+        'permission' => [
+            'office_cto_user.left-menu',
+        ],
+    ],
+    [
+        'icon' => 'fa fa-user',
+        'url' => 'admin.user.list',
+        'title' => 'Пользователи',
+        'class' =>'little-font',
+        'permission' => [
+            'admin.left-menu'
+        ],
+    ],
+];
+$userRole = $user->getRbacRoles() != null ? $user->getRbacRoles()[0]->getName() : 'guest';
+?>
+<div class="col-md-3 left_col">
+    <div class="left_col scroll-view">
+        <div class="navbar nav_title" style="border: 0;">
+            <a href="/" class="site_title"><img src="https://online.schetmash.com/upload/content/logo.png" alt=""></a>
+        </div>
+
+        <div class="clearfix"></div>
+        <br/>
+
+        <!-- sidebar menu -->
+        <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+            <div class="menu_section">
+                <h3>Меню</h3>
+                <ul class="nav side-menu">
+                    <?php
+                    foreach (OFFICE_USER_MENU as $ouMenuVal) {
+                        $isGranted = false;
+                        foreach ($ouMenuVal['permission'] as $permission) {
+                            if ($this->isGranted($permission)) {
+                                $isGranted = true;
+                                break;
+                            }
+                        }
+                        if ($isGranted) {
+                            ?>
+                            <li>
+                                <a href="<?php echo $this->url($ouMenuVal['url']); ?>" class="<?php echo $ouMenuVal['class'] ?? ''; ?>">
+                                    <i class="<?php echo $ouMenuVal['icon'] ?>"></i><?php echo $ouMenuVal['title']; ?>
+                                </a>
+                            </li>
+                            <?php
+                        }
+                    } ?>
+                </ul>
+            </div>
+        </div>
+        <!-- /sidebar menu -->
+
+        <!-- /menu footer buttons -->
+        <div class="sidebar-footer hidden-small">
+            <a data-toggle="tooltip" data-placement="top" title="Выход" href="<?php echo $this->url('logout'); ?>">
+                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+            </a>
+        </div>
+        <!-- /menu footer buttons -->
+    </div>
+</div>

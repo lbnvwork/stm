@@ -1,0 +1,21 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: afinogen
+ * Date: 13.03.19
+ * Time: 16:43
+ */ ?>
+<nav>
+    <ul>
+        <li><a href="<?php echo $this->url('home'); ?>">Лендинг</a></li>
+        <li><a href="<?php echo $this->url('user.changePassword'); ?>">Смена пароля</a></li>
+        <li><a href="<?php echo $this->url('user.profile'); ?>">Профиль пользователя</a></li>
+
+        <li><a href="<?php echo $this->url('office.company.list'); ?>">Компании</a></li>
+        <li><a href="<?php echo $this->url('office.db.list'); ?>">Базы товаров</a></li>
+        <li><a href="<?php echo $this->url('office.firmware.list'); ?>">Прошивки</a></li>
+        <li><a href="<?php echo $this->url('office.kkt.list'); ?>">Кассы</a></li>
+
+        <li><a href="<?php echo $this->url('logout'); ?>">Выйти</a></li>
+    </ul>
+</nav>

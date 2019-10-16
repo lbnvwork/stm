@@ -1,0 +1,19 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: afinogen
+ * Date: 16.03.18
+ * Time: 23:12
+ */
+
+return [
+    'sendMail' => [
+        'host' => 'smtp.yandex.ru',
+        'port' => 25,
+        'login' => '',
+        'password' => '',
+        'encryption' => 'ssl',
+        'from' => ['mr.afinogen89@yandex.ru' => 'schetmash.com'],
+        'siteUrl' => 'https://develop.schetmash.com/lk'
+    ]
+];

@@ -1,0 +1,132 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: afinogen
+ * Date: 23.01.18
+ * Time: 15:10
+ */
+/** @var Zend\View\Renderer\PhpRenderer $this */
+/** @var \App\Service\FlashMessage $flashMessage */
+
+$this->headLink()
+    ->prependStylesheet('/assets/auth/css/styles.css')
+    ->prependStylesheet('https://use.fontawesome.com/releases/v5.0.6/css/all.css')
+    ->prependStylesheet('https://www.kkt.personalforyou.art/wp-content/plugins/elementor/assets/css/frontend.min.css?ver=2.4.5')
+    ->prependStylesheet('/assets/landing/styles/app.min.css')
+    ->prependStylesheet('/assets/auth/css/uikit.min.css')
+    ->prependStylesheet('/assets/auth/css/font-awesome.css')
+    ->prependStylesheet('/assets/auth/css/animate.css')
+    ->prependStylesheet('/assets/auth/css/owl.carousel.min.css');
+//    ->prependStylesheet('/assets/auth/css/owl.theme.default.min.css');
+
+$this->inlineScript()
+    //->prependFile('/assets/landing/scripts/landing.js')
+    ->prependFile('/assets/landing/app.min.js')
+    ->prependFile('/assets/auth/js/script.js')
+    //->prependFile('/assets/landing/js/wow.min.js')
+    //->prependFile('/assets/landing/js/uikit.min.js')
+    //->prependFile('/assets/landing/js/uikit-icons.min.js')
+    //->prependFile('/assets/landing/js/uikit-icons.min.js')
+    ->prependFile('/assets/auth/js/owl.carousel.min.js')
+    ->prependFile('/assets/landing/scripts/bootstrap.min.js')
+    ->prependFile('/assets/landing/scripts/jquery.min.js');
+
+
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/x-icon" href="https://online.schetmash.com/favicon.ico"/>
+    <?php echo $this->headTitle('Счетмаш онлайн')->setSeparator(' - '); ?>
+    <?php echo $this->headMeta(); ?>
+    <?php echo $this->headLink(); ?>
+</head>
+<body>
+<div class="content">
+    <?php echo $this->partial('app::metrika'); ?>
+    <?php echo $this->partial('app::header'); ?>
+    <main>
+        <div class="container wrapper">
+            <?php echo $this->content ?>
+        </div>
+    </main>
+</div>
+<?php echo $this->partial('app::footer'); ?>
+<div class="flashmessages">
+    <?php
+    if (isset($flashMessage)) {
+        foreach ($flashMessage->getMessages() as $typeMessage => $messages) {
+            $messages = (array)$messages;
+
+            foreach ($messages as $message) {
+                ?>
+                <div class="<?php echo $typeMessage; ?> flashmessage fadeInRight" role="alert">
+                    <!--                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">-->
+                    <!--                        <span aria-hidden="true">×</span>-->
+                    <!--                    </button>-->
+                    <?php echo $message; ?>
+                    <i class="fa fa-times" aria-hidden="true" data-dismiss="alert" aria-label="Закрыть"></i>
+                </div>
+                <?php
+            }
+        }
+    }
+    ?>
+</div>
+<?php echo $this->inlineScript(); ?>
+<!-- Yandex.Metrika counter -->
+<!--<script type="text/javascript">-->
+<!--    (function (m, e, t, r, i, k, a) {-->
+<!--        m[i] = m[i] || function () {-->
+<!--            (m[i].a = m[i].a || []).push(arguments)-->
+<!--        };-->
+<!--        m[i].l = 1 * new Date();-->
+<!--        k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)-->
+<!--    })-->
+<!--    (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");-->
+<!---->
+<!--    ym(48966332, "init", {-->
+<!--        id: 48966332,-->
+<!--        clickmap: true,-->
+<!--        trackLinks: true,-->
+<!--        accurateTrackBounce: true,-->
+<!--        webvisor: true-->
+<!--    });-->
+<!--</script>-->
+<!--<noscript>-->
+<!--    <div><img src="https://mc.yandex.ru/watch/48966332" style="position:absolute; left:-9999px;" alt=""/></div>-->
+<!--</noscript>-->
+<!-- /Yandex.Metrika counter -->
+<!--<link rel="stylesheet" href="https://cdn.envybox.io/widget/cbk.css">-->
+<!--<script type="text/javascript" src="https://cdn.envybox.io/widget/cbk.js?wcb_code=ee8b70c1216911d1f40ce7517b28014a" charset="UTF-8" async></script>-->
+<!-- BEGIN JIVOSITE CODE {literal} -->
+<!--<script type='text/javascript'>-->
+<!--    (function () {-->
+<!--        var widget_id = '2PZlMGYu6T';-->
+<!--        var d = document;-->
+<!--        var w = window;-->
+<!---->
+<!--        function l() {-->
+<!--            var s = document.createElement('script');-->
+<!--            s.type = 'text/javascript';-->
+<!--            s.async = true;-->
+<!--            s.src = '//code.jivosite.com/script/widget/' + widget_id;-->
+<!--            var ss = document.getElementsByTagName('script')[0];-->
+<!--            ss.parentNode.insertBefore(s, ss);-->
+<!--        }-->
+<!---->
+<!--        if (d.readyState == 'complete') {-->
+<!--            l();-->
+<!--        } else {-->
+<!--            if (w.attachEvent) {-->
+<!--                w.attachEvent('onload', l);-->
+<!--            } else {-->
+<!--                w.addEventListener('load', l, false);-->
+<!--            }-->
+<!--        }-->
+<!--    })();</script>-->
+<!-- {/literal} END JIVOSITE CODE -->
+</body>
+</html>

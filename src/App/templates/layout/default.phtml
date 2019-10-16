@@ -1,0 +1,44 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: arinogen
+ * Date: 13.03.19
+ * Time: 13:51
+ */
+//css
+$this->headLink()
+    ->prependStylesheet('https://use.fontawesome.com/releases/v5.0.6/css/all.css')
+    ->prependStylesheet('https://www.kkt.personalforyou.art/wp-content/plugins/elementor/assets/css/frontend.min.css?ver=2.4.5')
+    ->prependStylesheet('/assets/landing/styles/app.min.css');
+//js
+$this->inlineScript()
+    //->prependFile('/assets/landing/scripts/landing.js')
+    ->prependFile('/assets/landing/app.min.js')
+    ->prependFile('/assets/landing/scripts/bootstrap.min.js')
+    ->prependFile('/assets/landing/scripts/jquery.min.js');
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimal-ui">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+          crossorigin="anonymous">
+    <link rel="shortcut icon" href="https://online.schetmash.com/favicon.ico"/>
+    <link rel="icon" href="/favicon.ico" type="image/ico"/>
+    <?php echo $this->headTitle('СТМ-кассы')->setSeparator(' - ')->setAutoEscape(false) ?>
+    <?php echo $this->headMeta() ?>
+    <?php echo $this->headLink() ?>
+</head>
+<body class="app">
+<div class="content">
+    <?php echo $this->partial('app::metrika'); ?>
+    <?php echo $this->partial('app::header'); ?>
+        <?php echo $this->content ?>
+</div>
+<?php echo $this->partial('app::footer'); ?>
+
+<?php echo $this->inlineScript() ?>
+</body>
+</html>

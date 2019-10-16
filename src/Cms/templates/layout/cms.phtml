@@ -1,0 +1,197 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: KiisChivarino
+ * Date: 09.04.19
+ * Time: 13:51
+ */
+/** @var Zend\View\Renderer\PhpRenderer $this */
+/** @var \App\Service\FlashMessage $flashMessage */
+//css
+$this->headLink()
+    ->prependStylesheet('/assets/lk/build/css/custom-mobile.css')
+    ->prependStylesheet('/assets/lk/build/css/custom.css')
+    ->prependStylesheet('/assets/lk/vendors/bootstrap/dist/css/bootstrap.min.css')
+    ->prependStylesheet('/assets/lk/vendors/font-awesome/css/font-awesome.min.css')
+    //->prependStylesheet('/assets/lk/vendors/nprogress/nprogress.css')
+    ->prependStylesheet('/assets/lk/vendors/iCheck/skins/flat/green.css')
+    //->prependStylesheet('/assets/lk/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css')
+    //->prependStylesheet('/assets/lk/vendors/jqvmap/dist/jqvmap.min.css')
+    ->prependStylesheet('/assets/lk/vendors/bootstrap-daterangepicker/daterangepicker.css');
+//->prependStylesheet('/assets/lk/vendors/switchery/dist/switchery.min.css');
+
+//js
+$this->inlineScript()
+    ->prependFile('/assets/cms.js')
+    ->prependFile('/assets/lk/build/js/custom.js')
+    //->prependFile('/assets/lk/vendors/pnotify/dist/pnotify.js')
+    ->prependFile('/assets/lk/vendors/bootstrap-daterangepicker/daterangepicker.js')
+    ->prependFile('/assets/lk/vendors/moment/min/moment.min.js')
+    //->prependFile('/assets/lk/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js')
+    //->prependFile('/assets/lk/vendors/jqvmap/dist/maps/jquery.vmap.world.js')
+    //->prependFile('/assets/lk/vendors/jqvmap/dist/jquery.vmap.js')
+    ->prependFile('/assets/lk/vendors/DateJS/build/date.js')
+    //->prependFile('/assets/lk/vendors/flot.curvedlines/curvedLines.js')
+    //->prependFile('/assets/lk/vendors/flot-spline/js/jquery.flot.spline.min.js')
+    //->prependFile('/assets/lk/vendors/flot.orderbars/js/jquery.flot.orderBars.js')
+    //->prependFile('/assets/lk/vendors/Flot/jquery.flot.resize.js')
+    //->prependFile('/assets/lk/vendors/Flot/jquery.flot.stack.js')
+    //->prependFile('/assets/lk/vendors/Flot/jquery.flot.time.js')
+    //->prependFile('/assets/lk/vendors/Flot/jquery.flot.pie.js')
+//    ->prependFile('/assets/lk/vendors/Flot/jquery.flot.js')
+//    ->prependFile('/assets/lk/vendors/skycons/skycons.js')
+    ->prependFile('/assets/lk/vendors/iCheck/icheck.min.js')
+    //->prependFile('/assets/lk/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js')
+    //->prependFile('/assets/lk/vendors/gauge.js/dist/gauge.min.js')
+    //->prependFile('/assets/lk/vendors/Chart.js/dist/Chart.min.js')
+    //->prependFile('/assets/lk/vendors/nprogress/nprogress.js')
+    //->prependFile('/assets/lk/vendors/fastclick/lib/fastclick.js')
+    //->prependFile('/assets/lk/vendors/validator/validator.js')
+    //->prependFile('/assets/lk/vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js')
+    ->prependFile('/assets/lk/vendors/bootstrap/dist/js/bootstrap.min.js')
+    ->prependFile('/assets/lk/vendors/jquery/dist/jquery.min.js');
+
+//$new = $this->templateHelper($this->url());
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/x-icon" href="https://online.schetmash.com/favicon.ico"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet"/>
+    <?php echo $this->headTitle('CMS')->setSeparator(' - ')->setAutoEscape(false) ?>
+
+    <?php echo $this->headMeta(); ?>
+    <?php echo $this->headLink(); ?>
+</head>
+
+<body class="nav-md">
+<div class="container body">
+    <div class="main_container">
+        <?php echo $this->partial('office::left-menu'); ?>
+
+        <!-- top navigation -->
+        <?php echo $this->partial('office::top-navigation'); ?>
+        <!-- /top navigation -->
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+            <div class="x_content bs-example-popovers">
+                <?php
+                if (isset($flashMessage)) {
+                    foreach ($flashMessage->getMessages() as $typeMessage => $messages) {
+                        foreach ($messages as $message) {
+                            ?>
+                            <div class="alert alert-<?php echo $typeMessage; ?> alert-dismissible fade in" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                                </button>
+                                <?php echo $message; ?>
+                                <!--                        <strong>Holy guacamole!</strong> Best check yo self, you're not looking too good.-->
+                            </div>
+                            <?php
+                        }
+                    }
+                }
+                ?>
+            </div>
+            <?php echo $this->content ?>
+        </div>
+        <!-- /page content -->
+
+        <!-- footer content -->
+        <footer>
+            <div class="clearfix"></div>
+        </footer>
+        <!-- /footer content -->
+    </div>
+</div>
+
+<?php echo $this->inlineScript(); ?>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.js-example-basic-multiple').select2({});
+        $('.js-example-basic-single').select2({
+            minimumResultsForSearch: -1
+        });
+        $('#datetime').daterangepicker({
+            singleDatePicker: true,
+            locale: {
+                "format": "DD.MM.YYYY",
+                "daysOfWeek": [
+                    "Вос",
+                    "Пон",
+                    "Вт",
+                    "Ср",
+                    "Чет",
+                    "Пят",
+                    "Суб"
+                ],
+                "monthNames": [
+                    "Январь",
+                    "Февраль",
+                    "Март",
+                    "Апрель",
+                    "Май",
+                    "Июнь",
+                    "Июль",
+                    "Август",
+                    "Сентябрь",
+                    "Октябрь",
+                    "Ноябрь",
+                    "Декабрь"
+                ],
+            }
+        });
+    });
+</script>
+<!-- Yandex.Metrika counter -->
+<!--<script type="text/javascript" >-->
+<!--    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};-->
+<!--        m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})-->
+<!--    (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");-->
+<!---->
+<!--    ym(48966332, "init", {-->
+<!--        id:48966332,-->
+<!--        clickmap:true,-->
+<!--        trackLinks:true,-->
+<!--        accurateTrackBounce:true,-->
+<!--        webvisor:true,-->
+<!--        triggerEvent: true-->
+<!--    });-->
+<!--</script>-->
+<!--<noscript><div><img src="https://mc.yandex.ru/watch/48966332" style="position:absolute; left:-9999px;" alt="" /></div></noscript>-->
+<!-- /Yandex.Metrika counter -->
+<!-- BEGIN JIVOSITE CODE {literal} -->
+<!--<script type='text/javascript'>-->
+<!--    (function () {-->
+<!--        var widget_id = '2PZlMGYu6T';-->
+<!--        var d = document;-->
+<!--        var w = window;-->
+<!---->
+<!--        function l() {-->
+<!--            var s = document.createElement('script');-->
+<!--            s.type = 'text/javascript';-->
+<!--            s.async = true;-->
+<!--            s.src = '//code.jivosite.com/script/widget/' + widget_id;-->
+<!--            var ss = document.getElementsByTagName('script')[0];-->
+<!--            ss.parentNode.insertBefore(s, ss);-->
+<!--        }-->
+<!---->
+<!--        if (d.readyState == 'complete') {-->
+<!--            l();-->
+<!--        } else {-->
+<!--            if (w.attachEvent) {-->
+<!--                w.attachEvent('onload', l);-->
+<!--            } else {-->
+<!--                w.addEventListener('load', l, false);-->
+<!--            }-->
+<!--        }-->
+<!--    })();</script>-->
+<!-- {/literal} END JIVOSITE CODE -->
+</body>
+</html>
